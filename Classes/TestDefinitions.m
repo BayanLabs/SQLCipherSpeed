@@ -32,6 +32,10 @@
 -(void) runTest:(sqlite3 *)db {
 	if(db == encryptedDb) {
         sqlite3_exec(encryptedDb, KEY, NULL, NULL, NULL);
+
+        NSString *PBKDF2IterSQL = @"PRAGMA kdf_iter = '4';";
+        sqlite3_exec(encryptedDb, [PBKDF2IterSQL UTF8String], NULL, NULL, NULL);
+        
         // if the pageSize property was set, use it instead of the sqlite default
         if (pageSize > 0)
         {
